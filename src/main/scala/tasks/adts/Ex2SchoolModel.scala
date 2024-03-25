@@ -28,3 +28,18 @@ object SchoolModel:
       def nameOfCourse(teacher: Teacher): String
       def setTeacherToCourse(teacher: Teacher, course: Course): School
       def coursesOfATeacher(teacher: Teacher): Sequence[Course]
+
+  object SchoolADT extends SchoolModule:
+    private case class SchoolImpl(teachers: Sequence[Teacher], courses: Sequence[Course])
+    private case class TeacherImpl(name: String)
+    private case class CourseImpl(name: String)
+    opaque type School = SchoolImpl
+    opaque type Teacher = TeacherImpl
+    opaque type Course = CourseImpl
+
+    extension (school: School)
+      def addTeacher(name: String): School = school match
+        case SchoolImpl(ts, cs) => SchoolImpl(Cons(TeacherImpl(name), ts), cs)
+
+
+
