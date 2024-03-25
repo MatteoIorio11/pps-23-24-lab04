@@ -1,6 +1,10 @@
 package u04lab
-import u03.Sequences.* 
-import Sequence.*
+import u03.Sequences.Sequence
+import u03.Sequences.Sequence.Cons
+import u03.Sequences.Sequence.Nil
+import u03.extensionmethods.Optionals.Optional
+
+import scala.annotation.tailrec
 
 /*  Exercise 5: 
  *  - Generalise by ad-hoc polymorphism logAll, such that:
@@ -17,10 +21,32 @@ import Sequence.*
 
 object Ex5Traversable:
 
-  def log[A](a: A): Unit = println("The next element is: "+a)
+  private def log[A](a: A): Unit = println("The next element is: "+a)
 
+  @tailrec
   def logAll[A](seq: Sequence[A]): Unit = seq match
     case Cons(h, t) => log(h); logAll(t)
     case _ => ()
 
-  
+
+  trait Traversable[T[_]]:
+    def logValue[A](el: A): Unit
+    def traverseStruct[A](struct: T[A]): Unit
+
+  private def logAllValues[T[_]: Traversable, A](s: T[A]): Unit =
+    val traversable = summon[Traversable[T]]
+    traversable.traverseStruct(s)
+
+  given Traversable[Sequence] with
+    def logValue[A](el: A): Unit = println("Sequence Value: " + el)
+    def traverseStruct[A](struct: Sequence[A]): Unit = struct match
+      case Cons(h, tail) => this.logValue(h); this.traverseStruct(tail)
+      case _ =>
+
+
+
+
+
+  @main def tryTraversable(): Unit =
+    val si = Cons(10, Cons(20, Cons(30, Nil())))
+    logAllValues(si)
