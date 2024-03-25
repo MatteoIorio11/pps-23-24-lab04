@@ -18,11 +18,11 @@ object Ex4Summables:
     def sum(a1: A, a2: A): A
     def zero: A
 
-  def sumAll[A: Summable](seq: Sequence[A]) =
+  def sumAll[A: Summable](seq: Sequence[A]): A =
     val summable = summon[Summable[A]]
     seq match
       case Nil() => summable.zero
-      case Cons(h, t) => summable.sum(h, _sum(t))
+      case Cons(h, t) => summable.sum(h, sumAll(t))
 
   given Summable[Int] with
     def sum(a1: Int, a2: Int): Int = a1 + a2
