@@ -34,4 +34,5 @@ object Ex1ComplexNumbers:
         ComplexImpl(complex.re() + other.re(), complex.im() + other.im())
       def subtract(other: Complex): Complex =
         ComplexImpl(complex.re() - other.re(), complex.im() - other.im())
-      def asString(): String = ???
+      def asString(): String =
+        complex.re() + " + " + complex.im() + "i"
