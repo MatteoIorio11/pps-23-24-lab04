@@ -26,7 +26,7 @@ class ComplexTest:
     assertEquals(complex(11, 22), complex(10, 20) sum complex(1, 2))
 
   @Test def testSubtract() =
-    assertEquals(complex(11, 22), complex(10, 20) subtract complex(1, 2))
+    assertEquals(complex(9, 18), complex(10, 20) subtract complex(1, 2))
 
   @Test def testAsString() =
     assertEquals("10.0 + 5.0i", complex(10.0, 5.0))
