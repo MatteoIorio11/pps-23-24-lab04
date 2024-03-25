@@ -32,5 +32,9 @@ object Ex3Stacks:
         seq match
           case Nil() => MyStack(Cons(a, Nil()))
           case Cons(h, tail) => MyStack(Cons(a, Cons(h, tail)))
-      def pop(a: A): Optional[(A, Stack[A])] = ???
+      def pop(a: A): Optional[(A, Stack[A])] = _popValues(a, stack.sequence)
+        private def _popValues(a: A, values: Sequence[A]): Optional[(A, Stack[A])] = values match
+          case Nil() => Optional.Empty()
+          case Cons(h, tail) if (h == a) => Optional.Just((h, MyStack(tail)))
+          case Cons(h, tail) => _popValues(a, tail)
       def asSequence(): Sequence[A] = ???
