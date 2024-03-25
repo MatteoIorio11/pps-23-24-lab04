@@ -66,7 +66,13 @@ object Ex2SchoolModel:
       def nameOfTeacher(teacher: Teacher): String = teacher.name
 
       def nameOfCourse(course: Course): String = course.name
-      def setTeacherToCourse(teacher: Teacher, course: Course): School = ???
-      def coursesOfATeacher(teacher: Teacher): Sequence[Course] = ???
+      def setTeacherToCourse(teacher: Teacher, course: Course): School = school match
+        case SchoolImpl(ts, cs) => SchoolImpl(ts, _changeTeacher(course, teacher, cs))
+        @tailrec
+        private def _changeTeacher(course: Course, teacher: Teacher, courses: Sequence[Course]): Sequence[Course] = courses match
+          case Cons(CourseImpl(cName, t), tail) if cName.eq(course.name) => Cons(CourseImpl(course.name, teacher), tail)
+          case Cons(h, tail) => _changeTeacher(course, teacher, tail)
+          case Nil() => Nil()
+      def coursesOfATeacher(teacher: Teacher): Sequence[Course] = 
 
 
