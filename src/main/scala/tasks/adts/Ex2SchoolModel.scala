@@ -56,7 +56,13 @@ object Ex2SchoolModel:
           case Cons(TeacherImpl(teachersName), tail) if teachersName.eq(name) => Optional.Just(TeacherImpl(teachersName))
           case Cons(_, t) => _findTeacher(t, name)
 
-      def courseByName(name: String): Optional[Course] = ???
+      def courseByName(name: String): Optional[Course] = school match
+        case SchoolImpl(_, cs) => _findCourse(cs, name)
+        @tailrec
+        private def _findCourse(seq: Sequence[Course], name: String): Optional[Course] = seq match
+          case Nil() => Optional.Empty()
+          case Cons(CourseImpl(coursesName), ts) if coursesName.eq(name) => Optional.Just(CourseImpl(coursesName))
+          case Cons(_, ts) => _findCourse(ts, name)
       def nameOfTeacher(teacher: Teacher): String = ???
       def nameOfCourse(teacher: Teacher): String = ???
       def setTeacherToCourse(teacher: Teacher, course: Course): School = ???
