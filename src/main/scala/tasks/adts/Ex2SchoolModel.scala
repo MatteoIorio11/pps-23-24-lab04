@@ -23,7 +23,7 @@ object Ex2SchoolModel:
     type Course
     extension (school: School)
       def addTeacher(name: String): School
-      def addCourse(name: String, teacher: Teacher): School
+      def addCourse(name: String): School
       def teacherByName(name: String): Optional[Teacher]
       def courseByName(name: String): Optional[Course]
       def nameOfTeacher(teacher: Teacher): String
@@ -33,27 +33,27 @@ object Ex2SchoolModel:
 
   object SchoolADT extends SchoolModule:
     private case class SchoolImpl(teachers: Sequence[Teacher], courses: Sequence[Course])
-    private case class TeacherImpl(name: String)
-    private case class CourseImpl(name: String, teacher: Teacher)
+    private case class TeacherImpl(name: String, courses: Sequence[Course])
+    private case class CourseImpl(name: String)
     opaque type School = SchoolImpl
     opaque type Teacher = TeacherImpl
     opaque type Course = CourseImpl
 
     def school(teachers: Sequence[Teacher], courses: Sequence[Course]): School = SchoolImpl(teachers, courses)
-    def teacher(name: String): Teacher = TeacherImpl(name)
-    def course(name: String, teacher: Teacher): Course = CourseImpl(name, teacher)
+    def teacher(name: String): Teacher = TeacherImpl(name, Nil())
+    def course(name: String): Course = CourseImpl(name)
     extension (school: School)
       def addTeacher(name: String): School = school match
-        case SchoolImpl(ts, cs) => SchoolImpl(Cons(TeacherImpl(name), ts), cs)
+        case SchoolImpl(ts, cs) => SchoolImpl(Cons(TeacherImpl(name, Nil()), ts), cs)
 
-      def addCourse(name: String, teacher: Teacher): School = school match
-        case SchoolImpl(ts, cs) => SchoolImpl(ts, Cons(CourseImpl(name, teacher), cs))
+      def addCourse(name: String): School = school match
+        case SchoolImpl(ts, cs) => SchoolImpl(ts, Cons(CourseImpl(name), cs))
       def teacherByName(name: String): Optional[Teacher] = school match
         case SchoolImpl(ts, _) => _findTeacher(ts, name)
         @tailrec
         private def _findTeacher(seq: Sequence[Teacher], name: String): Optional[Teacher] = seq match
           case Nil() => Optional.Empty()
-          case Cons(TeacherImpl(teachersName), tail) if teachersName.eq(name) => Optional.Just(TeacherImpl(teachersName))
+          case Cons(TeacherImpl(teachersName, courses), tail) if teachersName.eq(name) => Optional.Just(TeacherImpl(teachersName, courses))
           case Cons(_, t) => _findTeacher(t, name)
 
       def courseByName(name: String): Optional[Course] = school match
@@ -61,18 +61,14 @@ object Ex2SchoolModel:
         @tailrec
         private def _findCourse(seq: Sequence[Course], name: String): Optional[Course] = seq match
           case Nil() => Optional.Empty()
-          case Cons(CourseImpl(coursesName, teacher), ts) if coursesName.eq(name) => Optional.Just(CourseImpl(coursesName, teacher))
+          case Cons(CourseImpl(coursesName), ts) if coursesName.eq(name) => Optional.Just(CourseImpl(coursesName))
           case Cons(_, ts) => _findCourse(ts, name)
       def nameOfTeacher(teacher: Teacher): String = teacher.name
 
       def nameOfCourse(course: Course): String = course.name
       def setTeacherToCourse(teacher: Teacher, course: Course): School = school match
-        case SchoolImpl(ts, cs) => SchoolImpl(ts, _changeTeacher(course, teacher, cs))
-        @tailrec
-        private def _changeTeacher(course: Course, teacher: Teacher, courses: Sequence[Course]): Sequence[Course] = courses match
-          case Cons(CourseImpl(cName, t), tail) if cName.eq(course.name) => Cons(CourseImpl(course.name, teacher), tail)
-          case Cons(h, tail) => _changeTeacher(course, teacher, tail)
-          case Nil() => Nil()
-      def coursesOfATeacher(teacher: Teacher): Sequence[Course] = 
+        case SchoolImpl(ts, cs) => null
+
+      def coursesOfATeacher(teacher: Teacher): Sequence[Course] = teacher.courses
 
 
