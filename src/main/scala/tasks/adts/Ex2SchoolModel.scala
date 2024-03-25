@@ -63,7 +63,8 @@ object Ex2SchoolModel:
           case Nil() => Optional.Empty()
           case Cons(CourseImpl(coursesName), ts) if coursesName.eq(name) => Optional.Just(CourseImpl(coursesName))
           case Cons(_, ts) => _findCourse(ts, name)
-      def nameOfTeacher(teacher: Teacher): String = ???
+      def nameOfTeacher(teacher: Teacher): String = teacher.name
+
       def nameOfCourse(teacher: Teacher): String = ???
       def setTeacherToCourse(teacher: Teacher, course: Course): School = ???
       def coursesOfATeacher(teacher: Teacher): Sequence[Course] = ???
