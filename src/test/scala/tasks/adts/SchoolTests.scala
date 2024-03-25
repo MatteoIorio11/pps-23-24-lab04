@@ -18,9 +18,10 @@ class SchoolTests {
     assertEquals(expected, generalSchool.addTeacher("mario"))
 
   @Test def testAddCourse(): Unit =
-    val c = course("pps")
+    val t: Teacher = teacher("mario")
+    val c = course("pps", t)
     val expected: School = school(Nil(), Cons(c, Nil()))
-    assertEquals(expected, generalSchool.addCourse("pps"))
+    assertEquals(expected, generalSchool.addCourse("pps", t))
 
   @Test def testGetTeacherByName(): Unit =
     val t = teacher("mario")
@@ -33,8 +34,9 @@ class SchoolTests {
     assertEquals(Optional.Empty(), school.teacherByName("fabio"))
 
   @Test def testGetCourseByName(): Unit =
-    val c = course("history")
-    val school = generalSchool.addCourse("history")
+    val t = teacher("mario")
+    val c = course("history", t)
+    val school = generalSchool.addCourse("history", t)
     assertEquals(Optional.Just(c), school.courseByName("history"))
 
   @Test def testCourseNotFound(): Unit =
@@ -45,7 +47,9 @@ class SchoolTests {
     assertEquals("mario", generalSchool.nameOfTeacher(t))
 
   @Test def testNameOfCourse(): Unit =
-    val c = course("pps")
+    val t = teacher("mario")
+    val c = course("pps", t)
     assertEquals("pps", generalSchool.nameOfCourse(c))
+
 
 }
