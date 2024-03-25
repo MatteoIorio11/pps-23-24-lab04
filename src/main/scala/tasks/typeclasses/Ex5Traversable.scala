@@ -3,6 +3,8 @@ import u03.Sequences.Sequence
 import u03.Sequences.Sequence.Cons
 import u03.Sequences.Sequence.Nil
 import u03.extensionmethods.Optionals.Optional
+import u03.extensionmethods.Optionals.Optional.None
+import u03.extensionmethods.Optionals.Optional.Just
 
 import scala.annotation.tailrec
 
@@ -43,6 +45,13 @@ object Ex5Traversable:
       case Cons(h, tail) => this.logValue(h); this.traverseStruct(tail)
       case _ =>
 
+  given Traversable[Optional] with
+    def logValue[A](el: A): Unit = println("Optional Value: " + el)
+    def traverseStruct[A](struct: Optional[A]): Unit = struct match
+      case Just(el) => this.logValue(el)
+      case None() =>
+
+
 
 
 
@@ -50,3 +59,6 @@ object Ex5Traversable:
   @main def tryTraversable(): Unit =
     val si = Cons(10, Cons(20, Cons(30, Nil())))
     logAllValues(si)
+
+    val opt = Optional.Just(10)
+    logAllValues(opt)
