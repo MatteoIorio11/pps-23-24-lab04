@@ -31,4 +31,9 @@ class SchoolTests {
     val t = teacher("mario")
     val school = generalSchool.addTeacher("mario")
     assertEquals(Optional.Empty(), school.teacherByName("fabio"))
+
+  @Test def testGetCourseByName(): Unit =
+    val c = course("history")
+    val school = generalSchool.addCourse("history")
+    assertEquals(Optional.Just(c), school.courseByName("history"))
 }
