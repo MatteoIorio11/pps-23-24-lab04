@@ -1,6 +1,7 @@
 package tasks.adts
 
 import u03.Sequences.*
+import u03.Sequences.Sequence.*
 import u03.Optionals.*
 
 /*  Exercise 3: 
@@ -22,9 +23,14 @@ object Ex3Stacks:
       def asSequence(): Sequence[A]
   
   object StackImpl extends StackADT:
-    type Stack[A] = Nothing
-    def empty[A]: Stack[A] = ???
+    private case class MyStack[A](sequence: Sequence[A])
+    opaque type Stack[A] = MyStack[A]
+    def empty[A]: Stack[A] = MyStack(Nil())
     extension [A](stack: Stack[A])
-      def push(a: A): Stack[A] = ???
+      def push(a: A): Stack[A] =
+        val seq = stack.sequence
+        seq match
+          case Nil() => MyStack(Cons(a, Nil()))
+          case Cons(h, tail) => MyStack(Cons(a, Cons(h, tail)))
       def pop(a: A): Optional[(A, Stack[A])] = ???
       def asSequence(): Sequence[A] = ???
