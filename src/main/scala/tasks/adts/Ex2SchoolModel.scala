@@ -44,7 +44,8 @@ object Ex2SchoolModel:
       def addTeacher(name: String): School = school match
         case SchoolImpl(ts, cs) => SchoolImpl(Cons(TeacherImpl(name), ts), cs)
 
-      def addCourse(name: String): School = ???
+      def addCourse(name: String): School = school match
+        case SchoolImpl(ts, cs) => SchoolImpl(ts, Cons(CourseImpl(name), cs))
       def teacherByName(name: String): Optional[Teacher] = ???
       def courseByName(name: String): Optional[Course] = ???
       def nameOfTeacher(teacher: Teacher): String = ???
