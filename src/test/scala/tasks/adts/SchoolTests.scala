@@ -43,4 +43,9 @@ class SchoolTests {
   @Test def testNameOfTeacher(): Unit =
     val t = teacher("mario")
     assertEquals("mario", generalSchool.nameOfTeacher(t))
+
+  @Test def testNameOfCourse(): Unit =
+    val c = course("pps")
+    assertEquals("pps", generalSchool.nameOfCourse(c))
+
 }
