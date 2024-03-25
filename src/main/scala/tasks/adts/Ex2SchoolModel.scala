@@ -67,8 +67,11 @@ object Ex2SchoolModel:
 
       def nameOfCourse(course: Course): String = course.name
       def setTeacherToCourse(teacher: Teacher, course: Course): School = school match
-        case SchoolImpl(ts, cs) => null
+        case SchoolImpl(ts, cs) => SchoolImpl(Sequence.map(ts)(t => if t.name == teacher.name then TeacherImpl(t.name, Cons(course, t.courses)) else t), cs)
 
-      def coursesOfATeacher(teacher: Teacher): Sequence[Course] = teacher.courses
+      def coursesOfATeacher(teacher: Teacher): Sequence[Course] =
+        school.teacherByName(teacher.name) match
+          case Optional.Empty() => Nil()
+          case Optional.Just(t) => t.courses
 
 
