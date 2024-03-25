@@ -29,7 +29,7 @@ class ComplexTest:
     assertEquals(complex(9, 18), complex(10, 20) subtract complex(1, 2))
 
   @Test def testAsString() =
-    assertEquals("10.0 + 5.0i", complex(10.0, 5.0))
+    assertEquals("10.0 + 5.0i", complex(10.0, 5.0).asString())
 
   @Test def optionalTestAdvancedAsString() =
     assertEquals("0.0", complex(0, 0))
