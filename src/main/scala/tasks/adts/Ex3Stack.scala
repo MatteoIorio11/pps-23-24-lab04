@@ -4,6 +4,8 @@ import u03.Sequences.*
 import u03.Sequences.Sequence.*
 import u03.Optionals.*
 
+import scala.annotation.tailrec
+
 /*  Exercise 3: 
  *  Implement a Stack ADT
  *  Suggestion: 
@@ -33,8 +35,9 @@ object Ex3Stacks:
           case Nil() => MyStack(Cons(a, Nil()))
           case Cons(h, tail) => MyStack(Cons(a, Cons(h, tail)))
       def pop(a: A): Optional[(A, Stack[A])] = _popValues(a, stack.sequence)
+        @tailrec
         private def _popValues(a: A, values: Sequence[A]): Optional[(A, Stack[A])] = values match
           case Nil() => Optional.Empty()
           case Cons(h, tail) if (h == a) => Optional.Just((h, MyStack(tail)))
           case Cons(h, tail) => _popValues(a, tail)
-      def asSequence(): Sequence[A] = ???
+      def asSequence(): Sequence[A] = stack.sequence
