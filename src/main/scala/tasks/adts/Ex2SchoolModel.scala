@@ -1,7 +1,7 @@
 package tasks.adts
-import u03.Sequences.*
+import u03.Sequences.Sequence.*
 import u03.Optionals.*
-import u02.AlgebraicDataTypes.Person
+import u03.Sequences.Sequence
 
 /*  Exercise 2: 
  *  Implement the below trait, and write a meaningful test.
@@ -13,7 +13,7 @@ import u02.AlgebraicDataTypes.Person
  *  - add/set methods below create the new school 
  */
 
-object SchoolModel:
+object Ex2SchoolModel:
 
   trait SchoolModule:
     type School
@@ -31,15 +31,25 @@ object SchoolModel:
 
   object SchoolADT extends SchoolModule:
     private case class SchoolImpl(teachers: Sequence[Teacher], courses: Sequence[Course])
-    private case class TeacherImpl(name: String)
+    case class TeacherImpl(name: String)
     private case class CourseImpl(name: String)
     opaque type School = SchoolImpl
     opaque type Teacher = TeacherImpl
     opaque type Course = CourseImpl
 
+    def school(teachers: Sequence[Teacher], courses: Sequence[Course]): School = SchoolImpl(teachers, courses)
+    def teacher(name: String): Teacher = TeacherImpl(name)
+    def course(name: String): Course = CourseImpl(name)
     extension (school: School)
       def addTeacher(name: String): School = school match
         case SchoolImpl(ts, cs) => SchoolImpl(Cons(TeacherImpl(name), ts), cs)
 
+      def addCourse(name: String): School = ???
+      def teacherByName(name: String): Optional[Teacher] = ???
+      def courseByName(name: String): Optional[Course] = ???
+      def nameOfTeacher(teacher: Teacher): String = ???
+      def nameOfCourse(teacher: Teacher): String = ???
+      def setTeacherToCourse(teacher: Teacher, course: Course): School = ???
+      def coursesOfATeacher(teacher: Teacher): Sequence[Course] = ???
 
 
