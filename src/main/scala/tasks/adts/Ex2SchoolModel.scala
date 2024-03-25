@@ -3,6 +3,8 @@ import u03.Sequences.Sequence.*
 import u03.Optionals.*
 import u03.Sequences.Sequence
 
+import scala.annotation.tailrec
+
 /*  Exercise 2: 
  *  Implement the below trait, and write a meaningful test.
  *  Suggestion: 
@@ -31,7 +33,7 @@ object Ex2SchoolModel:
 
   object SchoolADT extends SchoolModule:
     private case class SchoolImpl(teachers: Sequence[Teacher], courses: Sequence[Course])
-    case class TeacherImpl(name: String)
+    private case class TeacherImpl(name: String)
     private case class CourseImpl(name: String)
     opaque type School = SchoolImpl
     opaque type Teacher = TeacherImpl
@@ -46,7 +48,14 @@ object Ex2SchoolModel:
 
       def addCourse(name: String): School = school match
         case SchoolImpl(ts, cs) => SchoolImpl(ts, Cons(CourseImpl(name), cs))
-      def teacherByName(name: String): Optional[Teacher] = ???
+      def teacherByName(name: String): Optional[Teacher] = school match
+        case SchoolImpl(ts, _) => _findTeacher(ts, name)
+        @tailrec
+        private def _findTeacher(seq: Sequence[Teacher], name: String): Optional[Teacher] = seq match
+          case Nil() => Optional.Empty()
+          case Cons(TeacherImpl(teachersName), tail) if teachersName.eq(name) => Optional.Just(TeacherImpl(teachersName))
+          case Cons(_, t) => _findTeacher(t, name)
+
       def courseByName(name: String): Optional[Course] = ???
       def nameOfTeacher(teacher: Teacher): String = ???
       def nameOfCourse(teacher: Teacher): String = ???
