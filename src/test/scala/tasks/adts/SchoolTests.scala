@@ -17,7 +17,10 @@ class SchoolTests {
     val expected: School = school(Cons(t, Nil()), Nil())
     assertEquals(expected, generalSchool.addTeacher("mario"))
 
-
+  @Test def testAddCourse(): Unit =
+    val c = course("pps")
+    val expected: School = school(Nil(), Cons(c, Nil()))
+    assertEquals(expected, generalSchool.addCourse("pps"))
 
 
 }
