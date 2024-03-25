@@ -52,4 +52,13 @@ class SchoolTests {
     assertEquals("pps", generalSchool.nameOfCourse(c))
 
 
+  @Test def testSetTeacherToCourse(): Unit =
+    val t = teacher("mario")
+    val t2 = teacher("matteo")
+    val c = course("pps", t)
+    val newSchool = generalSchool.addCourse("pps", t)
+    val expected = newSchool.setTeacherToCourse(t2, c)
+    println(expected)
+    assertEquals(school(Nil(), Cons(course("pps", t2), Nil())), newSchool.setTeacherToCourse(t2, c))
+
 }
