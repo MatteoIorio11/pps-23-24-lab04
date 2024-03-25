@@ -30,6 +30,7 @@ object Ex1ComplexNumbers:
         case ComplexImpl(real, _) => real
       def im(): Double = complex match
         case ComplexImpl(_, imaginary) => imaginary
-      def sum(other: Complex): Complex = ???
+      def sum(other: Complex): Complex =
+        ComplexImpl(complex.re() + other.re(), complex.im() + other.im())
       def subtract(other: Complex): Complex = ???
       def asString(): String = ???
