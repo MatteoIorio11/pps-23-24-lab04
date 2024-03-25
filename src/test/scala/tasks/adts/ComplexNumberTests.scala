@@ -2,7 +2,7 @@ package tasks.adts
 
 import org.junit.*
 import org.junit.Assert.*
-import u04lab.Ex1ComplexNumbers.*
+import tasks.adts.Ex1ComplexNumbers.*
 
 /* Tests should be clear, but note they are expressed independently of the 
    specific implementation
@@ -32,9 +32,9 @@ class ComplexTest:
     assertEquals("10.0 + 5.0i", complex(10.0, 5.0).asString())
 
   @Test def optionalTestAdvancedAsString() =
-    assertEquals("0.0", complex(0, 0))
-    assertEquals("10.0", complex(10.0, 0))
-    assertEquals("10.0 + 5.0i", complex(10.0, 5.0))
-    assertEquals("10.0 - 5.0i", complex(10.0, -5.0))
-    assertEquals("5.0i", complex(0, 5.0))
-    assertEquals("-5.0i", complex(0, -5.0))
+    assertEquals("0.0", complex(0, 0).asString())
+    assertEquals("10.0", complex(10.0, 0).asString())
+    assertEquals("10.0 + 5.0i", complex(10.0, 5.0).asString())
+    assertEquals("10.0 - 5.0i", complex(10.0, -5.0).asString())
+    assertEquals("5.0i", complex(0, 5.0).asString())
+    assertEquals("-5.0i", complex(0, -5.0).asString())
