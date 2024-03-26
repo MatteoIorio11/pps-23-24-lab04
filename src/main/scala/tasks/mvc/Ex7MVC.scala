@@ -17,6 +17,8 @@ object Ex7MVC {
       _ <- addButton(text = "dec", name = "DecButton")
       _ <- addButton(text = "reset", name = "ResetButton")
       _ <- addButton(text = "quit", name = "QuitButton")
+      _ <- addButton(text = "set", name = "SetButton")
+      _ <- addTextField("TextField")
       _ <- addLabel(text = str, name = "Label1")
       _ <- show()
       events <- eventStream()
@@ -25,6 +27,7 @@ object Ex7MVC {
     val controller = for
       events <- mv(seq(reset(), get()), i => windowCreation(i.toString()))
       _ <- seqN(events.map(_ match
+        case "SetButton" => mv(nop(), i => toLabelFromTextField("TextField", "Label1"))
         case "IncButton" => mv(seq(inc(), get()), i => toLabel(i.toString, "Label1"))
         case "DecButton" => mv(seq(dec(), get()), i => toLabel(i.toString, "Label1"))
         case "ResetButton" => mv(seq(reset(), get()), i => toLabel(i.toString, "Label1"))
