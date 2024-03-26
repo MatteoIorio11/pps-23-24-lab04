@@ -74,8 +74,7 @@ class SwingFunctionalFacade {
 
         @Override
         public Frame addTextField(String name){
-            JLabel jl = new JLabel();
-            this.labels.put(name, jl);
+            JTextField jl = new JTextField();
             this.jframe.getContentPane().add(jl);
             return this;
         }
