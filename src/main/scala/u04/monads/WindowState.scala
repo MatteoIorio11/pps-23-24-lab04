@@ -11,6 +11,8 @@ trait WindowState:
   def addLabel(text: String, name: String): State[Window, Unit]
   def addTextField(name: String): State[Window, Unit]
   def toLabel(text: String, name: String): State[Window, Unit]
+
+  def toLabelFromTextField(textFieldName: String, labelName: String): State[Window, Unit]
   def show(): State[Window, Unit]
   def exec(cmd: =>Unit): State[Window, Unit]
   def eventStream(): State[Window, Stream[String]]
@@ -34,6 +36,10 @@ object WindowStateImpl extends WindowState:
     State(w => ((w.addTextField(name)), {}))
   def toLabel(text: String, name: String): State[Window, Unit] =
     State(w => ((w.showToLabel(text, name)), {}))
+
+  def toLabelFromTextField(textFieldName: String, labelName: String): State[Window, Unit] =
+    State(w => ((w.showToLableFromTextField(textFieldName, labelName)), {}))
+
   def show(): State[Window, Unit] =
     State(w => (w.show, {}))
   def exec(cmd: =>Unit): State[Window, Unit] =
