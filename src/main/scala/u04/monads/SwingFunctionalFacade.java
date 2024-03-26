@@ -12,6 +12,7 @@ class SwingFunctionalFacade {
         Frame setSize(int width, int height);
         Frame addButton(String text, String name);
         Frame addLabel(String text, String name);
+        Frame addTextField(String name);
         Frame showToLabel(String text, String name);
         Frame show();
         Supplier<String> events();        
@@ -66,6 +67,14 @@ class SwingFunctionalFacade {
         @Override
         public Frame addLabel(String text, String name) {
             JLabel jl = new JLabel(text);
+            this.labels.put(name, jl);
+            this.jframe.getContentPane().add(jl);
+            return this;
+        }
+
+        @Override
+        public Frame addTextField(String name){
+            JLabel jl = new JLabel();
             this.labels.put(name, jl);
             this.jframe.getContentPane().add(jl);
             return this;
