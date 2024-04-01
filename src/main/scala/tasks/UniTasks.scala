@@ -2,6 +2,7 @@ package tasks
 
 import tasks.adts.Ex1ComplexNumbers.BasicComplexADT.ComplexImpl
 import tasks.adts.Ex2SchoolModel.SchoolModule
+import tasks.adts.Ex3Stacks.StackADT
 import u03.Optionals.Optional
 import u03.Optionals.Optional.Just
 import u03.Optionals.Optional.Empty
@@ -83,4 +84,23 @@ object UniTasks:
           case Optional.Empty() => Nil()
           case Optional.Just(t) => t.courses
 
-  
+  object Task3 extends StackADT:
+    private case class MyStack[A](sequence: Sequence[A])
+
+    opaque type Stack[A] = MyStack[A]
+
+    def empty[A]: Stack[A] = MyStack(Nil())
+
+    extension[A] (stack: Stack[A])
+      def push(a: A): Stack[A] =
+        val seq = stack.sequence
+        seq match
+          case Nil() => MyStack(Cons(a, Nil()))
+          case Cons(h, tail) => MyStack(Cons(a, Cons(h, tail)))
+      def pop(a: A): Optional[(A, Stack[A])] = _popValues(a, stack.sequence)
+      @tailrec
+      private def _popValues(a: A, values: Sequence[A]): Optional[(A, Stack[A])] = values match
+        case Nil() => Optional.Empty()
+        case Cons(h, tail) if (h == a) => Optional.Just((h, MyStack(tail)))
+        case Cons(h, tail) => _popValues(a, tail)
+      def asSequence(): Sequence[A] = stack.sequence
