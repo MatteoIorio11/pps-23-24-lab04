@@ -9,6 +9,7 @@ import u03.Optionals.Optional.Empty
 import u03.Sequences.Sequence
 import u03.Sequences.Sequence.Cons
 import u03.Sequences.Sequence.Nil
+import u04lab.Ex4Summables.Summable
 
 import scala.annotation.tailrec
 
@@ -104,3 +105,23 @@ object UniTasks:
         case Cons(h, tail) if (h == a) => Optional.Just((h, MyStack(tail)))
         case Cons(h, tail) => _popValues(a, tail)
       def asSequence(): Sequence[A] = stack.sequence
+
+  object Task4:
+    def sumAll[A: Summable](seq: Sequence[A]): A =
+      val summable = summon[Summable[A]]
+      seq match
+        case Nil() => summable.zero
+        case Cons(h, t) => summable.sum(h, sumAll(t))
+
+    given Summable[Int] with
+      def sum(a1: Int, a2: Int): Int = a1 + a2
+      def zero: Int = 0
+
+    given Summable[Double] with
+      def sum(a1: Double, a2: Double): Double = a1 + a2
+      def zero: Double = 0.0
+
+    given Summable[String] with
+      def sum(a1: String, a2: String): String = a1 + a2
+      def zero: String = ""
+
