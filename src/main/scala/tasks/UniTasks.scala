@@ -10,6 +10,7 @@ import u03.Sequences.Sequence
 import u03.Sequences.Sequence.Cons
 import u03.Sequences.Sequence.Nil
 import u04lab.Ex4Summables.Summable
+import u03.extensionmethods.Optionals.Optional.None
 
 import scala.annotation.tailrec
 
@@ -125,3 +126,25 @@ object UniTasks:
       def sum(a1: String, a2: String): String = a1 + a2
       def zero: String = ""
 
+  object Task5:
+    trait Traversable[T[_]]:
+      def logValue[A](el: A): Unit
+
+      def traverseStruct[A](struct: T[A]): Unit
+
+    private def logAllValues[T[_] : Traversable, A](s: T[A]): Unit =
+      val traversable = summon[Traversable[T]]
+      traversable.traverseStruct(s)
+
+    given Traversable[Sequence] with
+      def logValue[A](el: A): Unit = println("Sequence Value: " + el)
+
+      def traverseStruct[A](struct: Sequence[A]): Unit = struct match
+        case Cons(h, tail) => this.logValue(h); this.traverseStruct(tail)
+        case _ =>
+
+    given Traversable[Optional] with
+      def logValue[A](el: A): Unit = println("Optional Value: " + el)
+      def traverseStruct[A](struct: Optional[A]): Unit = struct match
+        case Just(el) => this.logValue(el)
+        case None() =>
