@@ -32,5 +32,11 @@ object Ex1ComplexNumbers:
         ComplexImpl(complex.re() + other.re(), complex.im() + other.im())
       def subtract(other: Complex): Complex =
         ComplexImpl(complex.re() - other.re(), complex.im() - other.im())
-      def asString(): String =
-        complex.re() + " + " + complex.im() + "i"
+      def asString(): String = complex match
+        case ComplexImpl(re, im) if (re == 0 && im == 0) => re.toString
+        case ComplexImpl(re, im) if (re != 0 && im == 0) => re.toString
+        case ComplexImpl(re, im) if (re != 0 && im > 0) => re + " + " + im + "i"
+        case ComplexImpl(re, im) if (re != 0 && im < 0) => re + " - " + Math.abs(im) + "i"
+        case ComplexImpl(re, im) if (re == 0 && im > 0) => im + "i"
+        case ComplexImpl(re, im) if (re == 0 && im < 0) => im + "i"
+
