@@ -3,6 +3,7 @@ package tasks
 import tasks.adts.Ex1ComplexNumbers.BasicComplexADT.ComplexImpl
 import tasks.adts.Ex2SchoolModel.SchoolModule
 import tasks.adts.Ex3Stacks.StackADT
+import tasks.monads.Ex6TryModel.{Try, exec}
 import u03.Optionals.Optional
 import u03.Optionals.Optional.Just
 import u03.Optionals.Optional.Empty
@@ -11,6 +12,7 @@ import u03.Sequences.Sequence.Cons
 import u03.Sequences.Sequence.Nil
 import u04lab.Ex4Summables.Summable
 import u03.extensionmethods.Optionals.Optional.None
+import u04.monads.Monads.Monad
 
 import scala.annotation.tailrec
 
@@ -148,3 +150,22 @@ object UniTasks:
       def traverseStruct[A](struct: Optional[A]): Unit = struct match
         case Just(el) => this.logValue(el)
         case None() =>
+  object Task6:
+    private enum TryImpl[A]:
+      case Success(value: A)
+      case Failure(exception: Throwable)
+
+    opaque type Try[A] = TryImpl[A]
+
+    def success[A](value: A): Try[A] = TryImpl.Success(value)
+
+    def failure[A](exception: Throwable): Try[A] = TryImpl.Failure(exception)
+
+    def exec[A](expression: => A): Try[A] = try success(expression) catch
+      case e: Throwable => failure(e)
+    given Monad[Try] with
+      override def unit[A](value: A): Try[A] = exec(value)
+      extension[A] (m: Try[A])
+        override def flatMap[B](f: A => Try[B]): Try[B] = m match
+          case TryImpl.Success(value) => f(value)
+          case TryImpl.Failure(exception) => TryImpl.Failure(exception)
